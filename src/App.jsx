@@ -285,7 +285,9 @@ function CourseReading({level,day,user}){
     <header className="reading-head"><div><span className="eyebrow">WEEK {journey} · DAY {dayNo} · ~30 MIN</span><h1>{content.title}</h1></div><button className="reading-close" onClick={()=>setOpen(false)} aria-label="Close reading">×</button></header>
     <div className="reading-scroll" data-reading-scroll="true" onScroll={saveScroll}>
       <p className="reading-intro">{content.intro}</p>
-      {readingNodes}</div>}
+      {readingNodes}
+      <div className="reading-study-note"><b>Study checkpoint</b><p>Pause here. Explain the main idea in your own words, identify the evidence that supports it, and note one question you still have.</p></div>
+      {videos.length>3&&<div className="reading-videos"><div className="section-head"><div><span className="eyebrow">EXTRA VIDEO STUDY</span><h2>One more reinforcement lesson</h2></div></div>{videos.slice(3).map(v=><div className="reading-video" key={v.id}><div className="video-frame"><iframe src={'https://www.youtube.com/embed/'+v.id} title={v.title} loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen/></div><b>{v.title}</b></div>)}</div>}
       <section className="reading-section reading-finish"><h2>Before you take today's assessment</h2><p>Review the headings above, make sure you can explain the key ideas without looking at the page, and then use the button below. Completing the reading does not by itself mark the day complete. Your graded daily quiz is the final academic check for this topic.</p></section>
     </div>
     <footer className="reading-foot"><button className="btn o" onClick={()=>setOpen(false)}>Save and return later</button><button className="btn reading-complete" disabled={quizLoading||!quizId||(!readingCompleted&&!canComplete)} onClick={readingCompleted?()=>setQuizPrompt(true):markReadingComplete}>{quizLoading?'Saving…':readingCompleted?'Continue to today’s quiz':quizId?'Mark reading as completed':'Scroll to the end to complete the reading'}</button></footer>
