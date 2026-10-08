@@ -3,6 +3,7 @@ import{Link,NavLink,useLocation,useNavigate,useParams}from'react-router-dom';
 import{supabase}from'./lib/supabase.js';
 import{getProfile,getEnrollment,getProgress,getAssignments,getMySubmissions,submitAssignment,downloadSubmission,adminPublishResult,adminIssueCertificate,markNotificationRead,completeEnrollmentProfile,updateMyProfile,submitDailyFeedback}from'./lib/api.js';
 import {StudentVoices} from './landing.jsx';
+import {PublicHome,CourseCatalog} from './public-course.jsx';
 import QuizPage,{QuizList,Grades,GradeTile}from'./quiz.jsx';
 import{Handbook,Transcript}from'./handbook.jsx';
 import Payment from'./payment.jsx';
