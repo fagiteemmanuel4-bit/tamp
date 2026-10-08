@@ -111,3 +111,8 @@ using (
 );
 
 -- The public catalogue continues to use public.courses and public.site_settings.
+
+-- Public student voices must not call the admin-only helper from an anon request.
+drop policy if exists student_feedback_public_select on public.student_feedback;
+create policy student_feedback_public_select on public.student_feedback
+for select to anon,authenticated using (approved=true or student_id=(select auth.uid()));
