@@ -277,6 +277,7 @@ function CourseReading({level,day,user}){
  useEffect(()=>{if(!open)return;const prev=document.body.style.overflow;document.body.style.overflow='hidden';requestAnimationFrame(()=>{const el=document.querySelector('[data-reading-scroll="true"]');if(el){const saved=Number(localStorage.getItem(storageKey)||savedScroll||0);el.scrollTop=saved;setReadingAtEnd(el.scrollTop+el.clientHeight>=el.scrollHeight-48)}});return()=>{document.body.style.overflow=prev}},[open,storageKey,savedScroll]);
  const beginQuiz=()=>{if(quizId)nav('/quiz/'+quizId);else setQuizPrompt(false)}; const markReadingComplete=async()=>{if(!quizId||quizLoading)return;setQuizLoading(true);try{const{error}=await supabase.rpc('complete_topic_reading',{p_course_id:'da',p_course_level_id:level.id,p_day_number:dayNo});if(error)throw error;setReadingCompleted(true);setQuizPrompt(true)}catch(e){alert(e.message||'Could not save your reading completion.')}finally{setQuizLoading(false)}};
  const readingSections=[...(content.sections||[]),...(READING_DEEP_DIVE[journey]?.[dayNo]||[]),...(READING_EXPANSION[journey]?.[dayNo]||[])];
+ const readingNodes=readingSections.map((section,i)=>React.createElement(ReadingSection,{key:'reading-'+i,section,index:i,videos}));
  return <>
   <button className="reading-start" onClick={openReading}><span><b>Start topic reading</b><small>Deep study · about 30 minutes · reading + videos</small></span><strong>↗</strong></button>
   {open&&<div className="reading-backdrop" role="presentation" onClick={e=>e.target===e.currentTarget&&setOpen(false)}>
@@ -284,7 +285,7 @@ function CourseReading({level,day,user}){
     <header className="reading-head"><div><span className="eyebrow">WEEK {journey} · DAY {dayNo} · ~30 MIN</span><h1>{content.title}</h1></div><button className="reading-close" onClick={()=>setOpen(false)} aria-label="Close reading">×</button></header>
     <div className="reading-scroll" data-reading-scroll="true" onScroll={saveScroll}>
       <p className="reading-intro">{content.intro}</p>
-      {readingSections.map((section,i)=><ReadingSection key={'reading-'+i} section={section} index={i} videos={videos}/>)}</div>}
+      {readingNodes}</div>}
       <section className="reading-section reading-finish"><h2>Before you take today's assessment</h2><p>Review the headings above, make sure you can explain the key ideas without looking at the page, and then use the button below. Completing the reading does not by itself mark the day complete. Your graded daily quiz is the final academic check for this topic.</p></section>
     </div>
     <footer className="reading-foot"><button className="btn o" onClick={()=>setOpen(false)}>Save and return later</button><button className="btn reading-complete" disabled={quizLoading||!quizId||(!readingCompleted&&!canComplete)} onClick={readingCompleted?()=>setQuizPrompt(true):markReadingComplete}>{quizLoading?'Saving…':readingCompleted?'Continue to today’s quiz':quizId?'Mark reading as completed':'Scroll to the end to complete the reading'}</button></footer>
