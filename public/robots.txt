@@ -1,0 +1,15 @@
+User-agent: *
+Allow: /
+Disallow: /learn
+Disallow: /profile
+Disallow: /notifications
+Disallow: /admin
+Disallow: /enroll
+Disallow: /transcript
+Disallow: /grades
+Disallow: /assignments
+Disallow: /quiz
+Disallow: /settings
+Disallow: /auth/
+
+Sitemap: https://r2-swff.vercel.app/sitemap.xml
